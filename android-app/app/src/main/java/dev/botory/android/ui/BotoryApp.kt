@@ -124,38 +124,10 @@ fun BotoryApp(client: BotoryClient) {
                     HorizontalFloatingToolbar(
                         expanded = true,
                         floatingActionButton = {
-                            Box {
-                                FloatingToolbarDefaults.VibrantFloatingActionButton(
-                                    onClick = { fabMenuOpen = !fabMenuOpen }
-                                ) {
-                                    Icon(Icons.Filled.Add, contentDescription = "Quick Actions")
-                                }
-                                DropdownMenu(
-                                    expanded = fabMenuOpen,
-                                    onDismissRequest = { fabMenuOpen = false }
-                                ) {
-                                    DropdownMenuItem(
-                                        text = { Text("Setup Wizard") },
-                                        onClick = {
-                                            fabMenuOpen = false
-                                            client.openSetupWizard()
-                                        }
-                                    )
-                                    DropdownMenuItem(
-                                        text = { Text("Hub & ZIP Import") },
-                                        onClick = {
-                                            fabMenuOpen = false
-                                            activeTab = BotoryTab.HUB
-                                        }
-                                    )
-                                    DropdownMenuItem(
-                                        text = { Text("Widgets & Tools") },
-                                        onClick = {
-                                            fabMenuOpen = false
-                                            activeTab = BotoryTab.WIDGETS
-                                        }
-                                    )
-                                }
+                            FloatingToolbarDefaults.VibrantFloatingActionButton(
+                                onClick = { fabMenuOpen = !fabMenuOpen }
+                            ) {
+                                Icon(Icons.Filled.Add, contentDescription = "Quick Actions")
                             }
                         },
                         colors = FloatingToolbarDefaults.vibrantFloatingToolbarColors()
@@ -195,6 +167,33 @@ fun BotoryApp(client: BotoryClient) {
                                 }
                             )
                         }
+                    }
+
+                    DropdownMenu(
+                        expanded = fabMenuOpen,
+                        onDismissRequest = { fabMenuOpen = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Setup Wizard") },
+                            onClick = {
+                                fabMenuOpen = false
+                                client.openSetupWizard()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Hub & ZIP Import") },
+                            onClick = {
+                                fabMenuOpen = false
+                                activeTab = BotoryTab.HUB
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Widgets & Tools") },
+                            onClick = {
+                                fabMenuOpen = false
+                                activeTab = BotoryTab.WIDGETS
+                            }
+                        )
                     }
                 }
             }
