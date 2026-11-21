@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "botory"
+version = "0.1.0"
+description = "Local-first Python SDK, Hub & Relay for bots, IoT bridges, AI agents, live widgets, and tools without Telegram."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "ShapePlace" }]
+keywords = ["bots", "local-first", "websocket", "iot", "widgets", "android", "termux", "sdk"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "aiohttp>=3.9.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "build>=1.0.0"]
+
+[project.urls]
+Homepage = "https://github.com/ShapePlace/Botory"
+Repository = "https://github.com/ShapePlace/Botory"
+Issues = "https://github.com/ShapePlace/Botory/issues"
+
+[project.scripts]
+botory = "botory.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

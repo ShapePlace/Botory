@@ -1,0 +1,33 @@
+name: Publish Python SDK to PyPI
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+
+jobs:
+  publish-pypi:
+    name: Build & Publish botory to PyPI
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/botory
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install build
+        run: pip install --upgrade pip build
+
+      - name: Build distribution
+        run: python -m build python-sdk
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: python-sdk/dist/

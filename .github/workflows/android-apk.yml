@@ -1,0 +1,62 @@
+name: Botory CI & Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  python-sdk-tests:
+    name: Python SDK, Package Build & Hub Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Botory SDK & dev tools
+        run: |
+          pip install --upgrade pip
+          pip install -e "./python-sdk[dev]"
+
+      - name: Run pytest
+        run: pytest -v python-sdk/tests
+
+      - name: Build sdist and wheel
+        run: python -m build python-sdk
+
+  android-apk:
+    name: Build Material 3 Expressive APK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android-app
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Gradle 8.11.1
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+
+      - name: Run unit tests & build Debug APK
+        run: gradle testDebugUnitTest assembleDebug
+
+      - name: Upload Botory Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: botory-debug-apk
+          path: android-app/app/build/outputs/apk/debug/app-debug.apk
